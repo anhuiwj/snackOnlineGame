@@ -1,15 +1,15 @@
-package com.huowolf.socket;
+package com.huowolf.server.scoket;
 
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ServerThread extends Thread
 {
-	Server father; //����Server������
-	ServerSocket ss;//����ServerSocket������
+	Server father;
+	ServerSocket ss;
 	boolean flag=true;
 	public ServerThread(Server father)
-	{//������
+	{
 		this.father=father;
 		ss=father.ss;
 	}
@@ -19,9 +19,9 @@ public class ServerThread extends Thread
 		{
 			try
 			{
-				Socket sc=ss.accept();//�ȴ�ͻ�������
+				Socket sc=ss.accept();
 				ServerAgentThread sat=new ServerAgentThread(father,sc);
-				sat.start();//���������������������߳�
+				sat.start();
 			}
 			catch(Exception e)
 			{

@@ -3,6 +3,7 @@ package com.huowolf.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
@@ -21,6 +22,11 @@ public class GamePanel extends JPanel{
 	private Food food;
 	private Ground ground;	
 	public Color backgroundColor;
+
+	private List<Snake> stapSnakes;
+
+	//多个食物
+	List<Food> foods;
 	
 	public GamePanel() {
 		setLocation(0, 0);		
@@ -41,6 +47,14 @@ public class GamePanel extends JPanel{
 		repaint();
 	}
 
+	public void display(List<Snake> stapSnakes, Food food, Ground ground,List<Food> foods) {
+		this.stapSnakes = stapSnakes;
+		this.food = food;
+		this.ground = ground;
+		this.foods = foods;
+		repaint();
+	}
+
 	
 	public void clearDraw(Graphics g) {
 			if(backgroundColor==null) {
@@ -56,19 +70,34 @@ public class GamePanel extends JPanel{
 	@Override
 	public void paint(Graphics g) {
 			clearDraw(g);
-			if(ground != null && snake != null && food != null
-					) {
+			if(stapSnakes != null
+					&& stapSnakes.size() >0){
+				if(ground != null){
+					ground.drawMe(g);
+				}
+				if(foods != null){
+					for(Food f:foods){
+						f.drawMe(g);
+					}
+				}
+				if(food != null){
+					food.drawMe(g);
+				}
+				for(Snake snake:stapSnakes){
+					snake.drawMe(g);
+				}
+			}else{
+				if(ground != null && snake != null
+						&& food != null) {
 					ground.drawMe(g);
 					food.drawMe(g);
 					snake.drawMe(g);
-					if(snake2 != null){
-						snake2.drawMe(g);
-					}
+
+				}
+				if(snake!=null && snake.isLife()==false)  {
+					recover(g);
+				}
 			}
-			if(snake!=null && snake.isLife()==false)  {
-				recover(g);
-			}
-	
 		}
 
 	

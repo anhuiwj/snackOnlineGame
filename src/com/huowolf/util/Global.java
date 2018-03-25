@@ -12,6 +12,9 @@ public class Global {
 
 	public static final int HANDER_BUTTON_TWO = 2;
 
+	//在线比赛60s
+	public static final int GAME_TIME = 1160;
+
 
 	//Socket IP地址
 	public static final String IP = "127.0.0.1";

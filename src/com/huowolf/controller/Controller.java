@@ -5,7 +5,7 @@ import com.huowolf.entities.Ground;
 import com.huowolf.entities.Snake;
 import com.huowolf.listener.SnakeListener;
 import com.huowolf.server.vo.Message;
-import com.huowolf.socket.ClientAgentThread;
+import com.huowolf.server.scoket.ClientAgentThread;
 import com.huowolf.util.Global;
 import com.huowolf.view.BottonPanel;
 import com.huowolf.view.GameMenu;
@@ -19,8 +19,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.net.Socket;
 import java.util.Vector;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 蛇控制类
@@ -56,11 +54,6 @@ public class Controller extends KeyAdapter implements SnakeListener{
 
 	Message message;
 
-	public int nowStap;
-
-	Lock lock = new ReentrantLock();
-	
-	
 	public Controller(Snake snake, Food food, Ground ground,GamePanel gamePanel,GameMenu gameMenu,BottonPanel bottonPanel) {
 		this.snake = snake;
 		this.food = food;
@@ -102,6 +95,8 @@ public class Controller extends KeyAdapter implements SnakeListener{
 		gameMenu.getAbItem().addActionListener(new abortItemHandler());
 		
 		bottonPanel.getStartButton().setEnabled(true);
+
+
 	}
 
 	//获取贪吃蛇
@@ -128,64 +123,48 @@ public class Controller extends KeyAdapter implements SnakeListener{
 	//监听按键
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(Global.HANDER_BUTTON_ONE == handleButton){
-			switch (e.getKeyCode()) {
-				case KeyEvent.VK_UP:
-					newDirection = Snake.UP;
-					break;
-				case KeyEvent.VK_DOWN:
-					newDirection = Snake.DOWN;
-					break;
-				case KeyEvent.VK_LEFT:
-					newDirection = Snake.LEFT;
-					break;
-				case KeyEvent.VK_RIGHT:
-					newDirection = Snake.RIGHT;
-					break;
-				default:
-					break;
-			}
-//			message.getSnake().changeDirection(newDirection);
-////			message.setSnackName(myName);
-////			message.setChanllengeName(changeName);
-////			nowStap ++;
-////			message.setNowStap(nowStap);
-////			clientt.stapSuccess(message);
-			snake.setNewDirection(newDirection);
-			nowStap ++;
-			clientt.changeDirection(newDirection,message);
-		}else{
-			switch (e.getKeyCode()) {
-				case KeyEvent.VK_W:
-					newDirection = Snake.UP;
-					break;
-				case KeyEvent.VK_S:
-					newDirection = Snake.DOWN;
-					break;
-				case KeyEvent.VK_A:
-					newDirection = Snake.LEFT;
-					break;
-				case KeyEvent.VK_D:
-					newDirection = Snake.RIGHT;
-					break;
-//			case KeyEvent.VK_N:
-//				msg.getSnake().speedUp();
-//				break;
-//			case KeyEvent.VK_M:
-//				msg.getSnake().speedDown();
-				default:
-					break;
-			}
-			snake.setNewDirection(newDirection);
-			nowStap ++;
-			clientt.changeDirection(newDirection,message);
-//			message.setSnackName(myName);
-//			message.setChanllengeName(changeName);
-//			nowStap ++;
-//			message.setNowStap(nowStap);
-//			clientt.stapSuccess(message);
+//		if(Global.HANDER_BUTTON_ONE == handleButton){
+//
+//		}else{
+//			switch (e.getKeyCode()) {
+//
+//				default:
+//					break;
+//			}
+//			//改变方向
+//			clientt.changeDirection(newDirection,message);
+//		}
+		switch (e.getKeyCode()) {
+			case KeyEvent.VK_UP:
+				newDirection = Snake.UP;
+				break;
+			case KeyEvent.VK_DOWN:
+				newDirection = Snake.DOWN;
+				break;
+			case KeyEvent.VK_LEFT:
+				newDirection = Snake.LEFT;
+				break;
+			case KeyEvent.VK_RIGHT:
+				newDirection = Snake.RIGHT;
+				break;
+			case KeyEvent.VK_W:
+				newDirection = Snake.UP;
+				break;
+			case KeyEvent.VK_S:
+				newDirection = Snake.DOWN;
+				break;
+			case KeyEvent.VK_A:
+				newDirection = Snake.LEFT;
+				break;
+			case KeyEvent.VK_D:
+				newDirection = Snake.RIGHT;
+				break;
 		}
-
+		//改变方向
+		snake.setNewDirection(newDirection);
+		if(clientt != null){
+			clientt.changeDirection(newDirection,message);
+		}
 	}
 
 	/**
@@ -210,15 +189,6 @@ public class Controller extends KeyAdapter implements SnakeListener{
 			bottonPanel.repaint();
 			setScore();		
 		}
-
-//		//两人玩
-//		if(food.isFoodEated(othersnake)) {
-//			othersnake.eatFood();
-//			food.newFood(ground.getPoint());
-//
-//			bottonPanel.repaint();
-//			setScore();
-//		}
 		
 		if(ground.isGroundEated(snake)) {
 			snake.die();
@@ -230,29 +200,8 @@ public class Controller extends KeyAdapter implements SnakeListener{
 			bottonPanel.getStartButton().setEnabled(true);
 		}
 
-//		snake.setSnake2(othersnake);
-//		if(isEatOtherBody(snake,othersnake)){
-//			snake.die();
-//			bottonPanel.getStartButton().setEnabled(true);
-//		}
 	}
 
-
-//	//是否吃掉别人的身子
-//	public boolean isEatOtherBody(Snake snake,Snake snake2) {
-//		for(int i=1;i<snake2.body.size();i++) {
-//			if(snake2.body.get(i).equals(snake.getHead())){
-//				return true;
-//			}
-//
-//		}
-//		System.out.println(snake.getHead());
-//
-//		return false;
-//	}
-//
-//
-	//
 	public void setScore() {
 		int score = snake.getFoodCount() ;
 		bottonPanel.setScore(score);
@@ -298,16 +247,7 @@ public class Controller extends KeyAdapter implements SnakeListener{
 		bottonPanel.setScore(0);
 	}
 
-	//开始游戏
-	public void startGame() {
-		gamePanel.requestFocus(true);
-		bottonPanel.getStartButton().setEnabled(false);
-	}
 
-
-	
-
-	
 	//开始按钮 单人游戏
 	class startHandler implements ActionListener {
 
@@ -487,6 +427,7 @@ public class Controller extends KeyAdapter implements SnakeListener{
 	class twoPButton implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			gamePanel.requestFocus(true);
 			Object o = bottonPanel.getjComboBox().getSelectedItem();
 				if(o != null ){
 					changeName = o.toString();
@@ -496,8 +437,6 @@ public class Controller extends KeyAdapter implements SnakeListener{
 					message.setSnackName(myName);
 					clientt.chanllengeSb(message);
 				}
-//			//开始游戏
-//			startGame();
 		}
 	}
 
@@ -507,44 +446,43 @@ public class Controller extends KeyAdapter implements SnakeListener{
 	 */
 	public void snakeMoved(Message msg){
 		message = msg;
-		if(msg != null
-				&& msg.getNowStap() == nowStap){
-			gamePanel.display(msg.getSnake(),msg.getSnake2(),msg.getFood(), msg.getGround());
-			msg.setSnackName(myName);
-			msg.setChanllengeName(changeName);
-			nowStap ++;
-			msg.setNowStap(nowStap);
-			clientt.stapSuccess(msg);
-			setScore(msg);
+		if(msg != null){
+			gamePanel.display(msg.getStapSnakes(),msg.getFood(),msg.getGround(),msg.getFoods());
 		}
+		setScore(msg);
 	}
 
 	//设置分数
 	public void setScore(Message message) {
-		int score = message.getSnake().getFoodCount() ;
-		bottonPanel.repaint();
-		bottonPanel.setScore(score);
+		if(message != null){
+			for(Snake snake:message.getStapSnakes()){
+				//给自己设置分数
+				if(myName.equals(snake.getSnackName())){
+					int score = snake.getFoodCount() ;
+					bottonPanel.repaint();
+					bottonPanel.setScore(score);
+				}
+			}
+		}
 	}
 
 	//重新开始
 	public void newGame(Message message) {
-		if(message != null){
-			message.getGround().clear();
-			//战斗场地
-			switch (message.getGround().getMapType()) {
-				case 1:
-					message.getGround().generateRocks1();
-					break;
-				case 2:
-					message.getGround().generateRocks2();
-					break;
-				case 3:
-					message.getGround().generateRocks3();
-					break;
-			}
-
-			message.getFood().newFood(message.getGround().getPoint());
+		message.getGround().clear();
+		//战斗场地
+		switch (message.getGround().getMapType()) {
+			case 1:
+				message.getGround().generateRocks1();
+				break;
+			case 2:
+				message.getGround().generateRocks2();
+				break;
+			case 3:
+				message.getGround().generateRocks3();
+				break;
 		}
+
+		message.getFood().newFood(message.getGround().getPoint());
 		bottonPanel.setScore(0);
 	}
 

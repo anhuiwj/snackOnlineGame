@@ -34,6 +34,7 @@ public class SnakeTimer {
     private static final ConcurrentHashMap<String, Snake> snakes =
             new ConcurrentHashMap<String, Snake>();
 
+
     public static synchronized void addSnake(Snake snake) {
         if (snakes.size() == 0) {
             startTimer();

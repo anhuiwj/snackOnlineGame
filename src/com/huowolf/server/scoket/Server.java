@@ -1,19 +1,19 @@
-package com.huowolf.socket;
+package com.huowolf.server.scoket;
 
-import com.huowolf.entities.Snake;
 import com.huowolf.server.vo.Message;
+import com.huowolf.util.Global;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import java.net.*;
-import java.util.ArrayList;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.net.ServerSocket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
-import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Server extends JFrame implements ActionListener
 {
@@ -45,15 +45,11 @@ public class Server extends JFrame implements ActionListener
 
 	Map<String,Integer> dirations = new HashMap<String, Integer>();
 
-	Map<String,Message> snakes = new HashMap<String,Message>();
+	public final ConcurrentHashMap<String, Message> snakes =
+			new ConcurrentHashMap<String, Message>();
 
-//	//蛇一移动信息
-//	Vector<Message> snake1 = new Vector<Message>();
-//
-//	//蛇二移动信息
-//	Vector<Message> snake2 = new Vector<Message>();
-
-	Lock lock = new ReentrantLock();
+	//游戏定时
+	public int GAME_TIMES = Global.GAME_TIME;
 
 	public Server()
 	{
@@ -92,6 +88,7 @@ public class Server extends JFrame implements ActionListener
 		this.addWindowListener(
 			new WindowAdapter()
 			{
+				@Override
 				public void windowClosing(WindowEvent e)
 				{
 					if(st==null)
@@ -125,6 +122,7 @@ public class Server extends JFrame implements ActionListener
 			}
 			);
 	}
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		if(e.getSource()==this.jbStart)
@@ -161,6 +159,7 @@ public class Server extends JFrame implements ActionListener
 			this.jtfPort.setEnabled(false);
 			this.jbStop.setEnabled(true);
 			ss=new ServerSocket(port);
+			//开启server线程等待用户连接
 			st=new ServerThread(this);
 			st.start();
 
@@ -214,9 +213,5 @@ public class Server extends JFrame implements ActionListener
 			v.add(temps);
 		}
 		this.jlUserOnline.setListData(v);
-	}
-	public static void main(String args[])
-	{
-		new Server();
 	}
 }

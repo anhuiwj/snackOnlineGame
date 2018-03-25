@@ -1,4 +1,4 @@
-package com.huowolf.socket;
+package com.huowolf.server.scoket;
 
 import com.alibaba.fastjson.JSON;
 import com.huowolf.entities.Snake;
@@ -37,7 +37,7 @@ public class ClintSocket {
             msg.setHandleType(Global.HANDLE_TYPE_FOUR);
             msg.setSnake(snake);
             msg.setSnackName("123");
-            msg.setSnake2(snake2);
+//            msg.setSnake2(snake2);
 //			Snake user1 = JSON.parseObject(JSON.toJSONString(snake), Snake.class);
 //			System.out.print(JSON.toJSONString(snake));
             String str =  JSON.toJSONString(msg);

@@ -13,11 +13,11 @@ import com.huowolf.view.GamePanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class NextGameFrame extends JFrame {
+public class NextGameFrame extends JFrame implements Runnable{
 
 	/**
-	 *
-	 */
+//	 *
+//	 */
 	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
@@ -73,10 +73,12 @@ public class NextGameFrame extends JFrame {
 		snake.addSnakeListener(controller);
 
 		controller.setMyName("snack2");
-		controller.setHandleButton(Global.HANDER_BUTTON_TWO);
 		controller.setParentComponent(this);
 		controller.setOnline();
+	}
+
+	@Override
+	public void run() {
 		controller.newGame();
 	}
-	
 }

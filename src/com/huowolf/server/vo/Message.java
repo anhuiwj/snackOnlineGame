@@ -21,14 +21,8 @@ public class Message implements Serializable {
     //蛇信息(当前用户)
     private Snake snake;
 
-    //蛇二信息
-    private Snake snake2;
-
     //食物信息
     private Food food;
-
-    //石头
-    private Ground ground;
 
     //挑战者
     private String chanllengeName;
@@ -38,6 +32,15 @@ public class Message implements Serializable {
 
     //当前移动步骤
     private int nowStap;
+
+    //所有蛇移动信息
+    public List<Snake> stapSnakes;
+
+    private int newDirection;
+
+    private Ground ground;
+
+    private List<Food> foods;
 
     public String getSnackName() {
         return snackName;
@@ -71,28 +74,12 @@ public class Message implements Serializable {
         this.onlineUsers = onlineUsers;
     }
 
-    public Snake getSnake2() {
-        return snake2;
-    }
-
-    public void setSnake2(Snake snake2) {
-        this.snake2 = snake2;
-    }
-
     public Food getFood() {
         return food;
     }
 
     public void setFood(Food food) {
         this.food = food;
-    }
-
-    public Ground getGround() {
-        return ground;
-    }
-
-    public void setGround(Ground ground) {
-        this.ground = ground;
     }
 
     public String getChanllengeName() {
@@ -109,5 +96,37 @@ public class Message implements Serializable {
 
     public void setNowStap(int nowStap) {
         this.nowStap = nowStap;
+    }
+
+    public List<Snake> getStapSnakes() {
+        return stapSnakes;
+    }
+
+    public void setStapSnakes(List<Snake> stapSnakes) {
+        this.stapSnakes = stapSnakes;
+    }
+
+    public int getNewDirection() {
+        return newDirection;
+    }
+
+    public void setNewDirection(int newDirection) {
+        this.newDirection = newDirection;
+    }
+
+    public Ground getGround() {
+        return ground;
+    }
+
+    public void setGround(Ground ground) {
+        this.ground = ground;
+    }
+
+    public List<Food> getFoods() {
+        return foods;
+    }
+
+    public void setFoods(List<Food> foods) {
+        this.foods = foods;
     }
 }

@@ -56,12 +56,6 @@ public class BottonPanel extends JPanel{
 		add(scoreLabel);
 
 
-		/*
-		scorePanel = new JPanel();
-		scorePanel.setBounds(30, 180, 150, 100);
-		//scorePanel.setBackground(Color.BLUE);
-		add(scorePanel);*/
-		
 		Color c= new Color(0, 250,154);
 		this.setBackground(c);
 		
