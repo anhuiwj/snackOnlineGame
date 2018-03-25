@@ -44,7 +44,7 @@ public class GameFrame extends JFrame implements Runnable{
 		gamePanel = controller.getGamePanel();
 		buttonPanel = controller.getBottonPanel();
 
-		setTitle("我的贪吃蛇1");
+		setTitle("我的贪吃蛇");
 		setBounds(300,100,Global.WIDTH*Global.CELL_SIZE+250,Global.HEIGHT*Global.CELL_SIZE+60);
 		setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

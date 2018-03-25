@@ -19,7 +19,12 @@ public class BottonPanel extends JPanel{
 	private JButton twoPButton;
 
 	private JLabel scoreLabel;
+
+	private JLabel timeeLabel;
+
 	private int score;
+
+	private int time;
 
 	private JComboBox jComboBox;
 	
@@ -55,6 +60,10 @@ public class BottonPanel extends JPanel{
 		scoreLabel.setBounds(30, 220, 100, 30);
 		add(scoreLabel);
 
+		timeeLabel = new JLabel("Time:");
+		timeeLabel.setFont(new Font("Serif",Font.BOLD,18));
+		timeeLabel.setBounds(40, 300, 100, 30);
+		add(timeeLabel);
 
 		Color c= new Color(0, 250,154);
 		this.setBackground(c);
@@ -91,6 +100,14 @@ public class BottonPanel extends JPanel{
 		this.score = score;
 	}
 
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
+	}
+
 	public JComboBox getjComboBox() {
 		return jComboBox;
 	}
@@ -105,6 +122,8 @@ public class BottonPanel extends JPanel{
 		g.setColor(Color.PINK);
 		g.setFont(new Font("Serif",Font.BOLD,50));
 		g.drawString(score+"", 40, 290);
+		g.drawString(time+"", 40, 360);
+
 	}
 	
 

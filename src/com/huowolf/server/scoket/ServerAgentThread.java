@@ -39,7 +39,7 @@ public class ServerAgentThread extends Thread
 
 	private Timer gameTimer = null;
 
-	private final long TICK_DELAY = 300;
+	private final long TICK_DELAY = 500;
 
 	public ServerAgentThread(Server father, Socket sc)
 	{
@@ -300,29 +300,21 @@ public class ServerAgentThread extends Thread
 		Food food = new Food();
 		food.newFood(msg.getGround().getPoint());
 		msg.setFood(food);
+		msg.setTime(father.GAME_TIMES);
 
-
-
-		snake = new Snake();
-		snake.init(Global.WIDTH/2,Global.HEIGHT/2);
-
-		snake2 = new Snake();
-		snake2.init(10,10);
-
-		snake.setSnackName("snack1");
-
-		snake2.setSnackName("snack2");
-
-		stapSnakes.add(snake);
-		stapSnakes.add(snake2);
+		Vector tempv=father.onlineList;
+		for(int i=0;i<tempv.size();i++) {
+			ServerAgentThread satTemp=(ServerAgentThread)tempv.get(i);
+			snake = new Snake();
+			//初始化蛇的信息
+			snake.init((Global.WIDTH-i)/2,(Global.HEIGHT-i)/2);
+			snake.setSnackName(satTemp.getName());
+			stapSnakes.add(snake);
+			msg.setSnackName(snake.getSnackName());
+			addSnake(msg);
+		}
 
 		msg.setStapSnakes(stapSnakes);
-
-		msg.setSnackName("snack1");
-		addSnake(msg);
-
-		msg.setSnackName("snack2");
-		addSnake(msg);
 
 	}
 
@@ -373,11 +365,12 @@ public class ServerAgentThread extends Thread
 		}
 		message.setStapSnakes(stapSnakes);
 
-		if(father.GAME_TIMES <= 0){
+		if(father.GAME_TIMES < 0){
 			stopTimer();
 			//游戏时间到
 			message.setHandleType(Global.HANDLE_TYPE_EIGHT);
 		}
+		message.setTime(father.GAME_TIMES);
 
 		broadcast(JSON.toJSONString(message));
 		father.GAME_TIMES -= 1 ;

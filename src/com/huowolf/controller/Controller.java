@@ -412,8 +412,9 @@ public class Controller extends KeyAdapter implements SnakeListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			StringBuffer sb= new StringBuffer();
-			sb.append("方向键控制方向\n");
-			sb.append("w键 s键分表控制其加速减速\n");
+			sb.append("方向键\n");
+			sb.append("WASD控制 都可控制其方向\n");
+			sb.append("在规定120s内,谁的食物多者胜\n");
 			String message = sb.toString();
 			JOptionPane.showMessageDialog(null, message, "使用说明",JOptionPane.INFORMATION_MESSAGE);
 			
@@ -461,10 +462,13 @@ public class Controller extends KeyAdapter implements SnakeListener{
 					int score = snake.getFoodCount() ;
 					bottonPanel.repaint();
 					bottonPanel.setScore(score);
+					bottonPanel.setTime(message.getTime());
 				}
 			}
 		}
 	}
+
+
 
 	//重新开始
 	public void newGame(Message message) {

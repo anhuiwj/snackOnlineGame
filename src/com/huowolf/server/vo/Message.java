@@ -42,6 +42,8 @@ public class Message implements Serializable {
 
     private List<Food> foods;
 
+    private int time;
+
     public String getSnackName() {
         return snackName;
     }
@@ -128,5 +130,13 @@ public class Message implements Serializable {
 
     public void setFoods(List<Food> foods) {
         this.foods = foods;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 }
