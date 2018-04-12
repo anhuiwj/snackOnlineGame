@@ -78,7 +78,7 @@ public class SnackHandle {
      * 处理蛇游戏规则
      * @param message
      */
-    public static void handLife(Message message, Snake snake){
+    public synchronized static void handLife(Message message, Snake snake){
         Food food = message.getFood();
         Ground ground = message.getGround();
 
@@ -115,7 +115,7 @@ public class SnackHandle {
                 }
             }
         }
-
+        //墙
         if(ground.isGroundEated(snake)) {
             initSnack(snake);
             snake.setFoodCount(0);
@@ -160,13 +160,13 @@ public class SnackHandle {
      *死后去吃去的食物
      * @param snake
      */
-    public static void deleteBody(Snake snake){
+    public synchronized static void deleteBody(Snake snake){
         if(snake != null
                 && snake.body != null){
             LinkedList<Point> body = snake.body;
             if(body.size() > 3){
                 for(int i=body.size();i>body.size()-2;i++){
-                    snake.body.remove(i);
+                    snake.body.remove(i-1);
                 }
             }
         }
@@ -182,17 +182,4 @@ public class SnackHandle {
 
     }
 
-    public static void main(String[] args){
-        Snake snake = new Snake();
-        snake.clear();
-        snake.init(Global.WIDTH/2,Global.HEIGHT/2);
-
-//        for(int i=0;i<3;i++){
-//            move(snake);
-//            System.out.println(JSON.toJSONString(snake));
-//        }
-        System.out.println(2%2);
-
-
-    }
 }
